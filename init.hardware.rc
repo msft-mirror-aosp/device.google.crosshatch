@@ -596,6 +596,7 @@ on property:sys.boot_completed=1
     write /sys/devices/platform/soc/${ro.boot.bootdevice}/hibern8_on_idle_enable 1
 
     # Enable ZRAM on boot_complete
+    rm /data/unencrypted/zram_swap
     swapon_all /vendor/etc/fstab.${ro.boot.hardware.platform}
     write /proc/sys/vm/swappiness 100
 
@@ -928,13 +929,13 @@ on property:ro.boot.hardware.sku=G013A
     setprop persist.vendor.nfc.uicc_enabled true
 on property:ro.boot.hardware.sku=G013B
     setprop persist.vendor.nfc.uicc_enabled false
-    setprop persist.vendor.radio.uicc_se_enabled false
+    setprop persist.vendor.radio.uicc_se_enabled true
     interface_start android.hardware.secure_element@1.1::ISecureElement/eSE1
 on property:ro.boot.hardware.sku=G013C
     setprop persist.vendor.nfc.uicc_enabled true
 on property:ro.boot.hardware.sku=G013D
     setprop persist.vendor.nfc.uicc_enabled false
-    setprop persist.vendor.radio.uicc_se_enabled false
+    setprop persist.vendor.radio.uicc_se_enabled true
     interface_start android.hardware.secure_element@1.1::ISecureElement/eSE1
 
 # charger driver exposes now finer grain control, map demo mode to those properties
@@ -988,15 +989,13 @@ on boot && property:persist.radio.multisim.config=dsds && property:persist.vendo
     setprop persist.radio.multisim.config ""
     stop vendor.qcrild2
 
-# Write the dark theme magic (`theme-dark`, or 0x7468656d652d6461726b in hex string) to /misc
-# partition. Offset 0 in vendor space is effectively offset 2048 in /misc partition.
-service vendor.theme_set /vendor/bin/misc_writer --vendor-space-offset 0 --hex-string 0x7468656d652d6461726b
+# Write the dark theme magic to /misc partition.
+service vendor.theme_set /vendor/bin/misc_writer --set-dark-theme
     disabled
     oneshot
 
-# Clear the 10-byte dark theme magic in /misc partition. Offset 0 in vendor space is effectively
-# offset 2048 in /misc partition.
-service vendor.theme_clear /vendor/bin/misc_writer --vendor-space-offset 0 --hex-string 0x00000000000000000000
+# Clear the dark theme magic in /misc partition.
+service vendor.theme_clear /vendor/bin/misc_writer --clear-dark-theme
     disabled
     oneshot
 
@@ -1011,3 +1010,14 @@ on property:persist.sys.theme=1
 
 on property:persist.sys.theme=0
     start vendor.theme_clear
+
+on init && property:ro.boot.slot_successful=no
+    write /sys/module/msm_poweroff/parameters/warm_reset 1
+
+# Set or clear the warm reset flag upon the change of system property. The flag itself is set
+# by writing a sysfs file; and the file will be read by kernel.
+on property:ota.warm_reset=1
+    write /sys/module/msm_poweroff/parameters/warm_reset 1
+
+on property:ota.warm_reset=0
+    write /sys/module/msm_poweroff/parameters/warm_reset 0
