@@ -260,6 +260,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.audio.fluence.voicerec=false \
     ro.config.vc_call_vol_steps=7 \
     ro.config.media_vol_steps=25 \
+    vendor.audio.offload.gapless.enabled=true \
 
 # MaxxAudio effect and add rotation monitor
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -841,7 +842,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Increment the SVN for any official public releases
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.build.svn=33
+    ro.vendor.build.svn=34
 
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.adb.secure=1
