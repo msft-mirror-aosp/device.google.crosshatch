@@ -848,7 +848,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Increment the SVN for any official public releases
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.build.svn=42
+    ro.vendor.build.svn=44
 
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.adb.secure=1
@@ -894,6 +894,9 @@ else
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.verbose_logging_enabled=false
 endif
+
+# Pixel Logger
+include hardware/google/pixel/PixelLogger/PixelLogger.mk
 
 include hardware/google/pixel/pixelstats/device.mk
 include hardware/google/pixel/mm/device_legacy.mk
