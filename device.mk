@@ -441,7 +441,7 @@ PRODUCT_COPY_FILES += \
     device/google/crosshatch/nfc/libese-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libese-nxp.conf
 
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.1-service.crosshatch
+    android.hardware.usb@1.2-service.crosshatch
 
 PRODUCT_PACKAGES += \
     libmm-omxcore \
@@ -848,7 +848,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Increment the SVN for any official public releases
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.build.svn=44
+    ro.vendor.build.svn=47
 
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.adb.secure=1
