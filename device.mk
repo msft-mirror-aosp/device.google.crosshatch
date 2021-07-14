@@ -848,7 +848,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Increment the SVN for any official public releases
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.build.svn=51
+    ro.vendor.build.svn=52
 
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.adb.secure=1
@@ -901,6 +901,7 @@ include hardware/google/pixel/PixelLogger/PixelLogger.mk
 include hardware/google/pixel/pixelstats/device.mk
 include hardware/google/pixel/mm/device_legacy.mk
 include hardware/google/pixel/thermal/device.mk
+include hardware/google/pixel/citadel/citadel.mk
 
 # power HAL
 -include hardware/google/pixel/power-libperfmgr/aidl/device.mk
